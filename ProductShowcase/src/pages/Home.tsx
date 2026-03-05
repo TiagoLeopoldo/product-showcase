@@ -10,7 +10,6 @@ const Home: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
-
   const fetchPokemon = async (forceRefresh = false) => {
     try {
       setLoading(true);
@@ -59,7 +58,6 @@ const Home: React.FC = () => {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
           />
         </div>
-
       </div>
 
       <div className="space-y-6">

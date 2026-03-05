@@ -1,4 +1,7 @@
+import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
+import Details from './pages/Details'
+
 
 function App() {
   return (
@@ -13,7 +16,10 @@ function App() {
         </header>
 
         <main className="container mx-auto px-4 pb-12">
-          <Home />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/pokemon/:name" element={<Details />} />
+          </Routes>
         </main>
 
         <footer className="bg-gray-800 text-white py-6 mt-auto">

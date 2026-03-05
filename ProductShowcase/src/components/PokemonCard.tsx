@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { useNavigate } from 'react-router-dom';
 
 interface PokemonCardProps {
   name: string;
@@ -7,7 +7,7 @@ interface PokemonCardProps {
 }
 
 const PokemonCard: React.FC<PokemonCardProps> = ({ name, url }: PokemonCardProps) => {
-
+  const navigate = useNavigate();
 
   const id = url.split('/').filter(Boolean).pop();
   const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
@@ -16,6 +16,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ name, url }: PokemonCardProps
   return (
     <div
       className="pokemon-card group"
+      onClick={() => navigate(`/pokemon/${name}`)}
     >
       <div className="aspect-square bg-gray-50 dark:bg-gray-700 flex items-center justify-center p-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-pokemon-yellow opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>

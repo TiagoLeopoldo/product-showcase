@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { PokemonListResponse } from '../types/pokemon';
+import type { PokemonListResponse, PokemonDetail } from '../types/pokemon';
 
 const api = axios.create({
   baseURL: 'https://pokeapi.co/api/v2/',
@@ -31,6 +31,16 @@ export const getPokemonList = async (limit: number = 151): Promise<PokemonListRe
   if (cached) return cached;
 
   const response = await api.get<PokemonListResponse>(`pokemon?limit=${limit}`);
+  setCache(cacheKey, response.data);
+  return response.data;
+};
+
+export const getPokemonDetails = async (name: string): Promise<PokemonDetail> => {
+  const cacheKey = `detail-${name}`;
+  const cached = getCache<PokemonDetail>(cacheKey);
+  if (cached) return cached;
+
+  const response = await api.get<PokemonDetail>(`pokemon/${name}`);
   setCache(cacheKey, response.data);
   return response.data;
 };
