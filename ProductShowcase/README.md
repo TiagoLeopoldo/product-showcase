@@ -1,73 +1,63 @@
-# React + TypeScript + Vite
+# README - Desafio Pokedéx Online
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este projeto foi desenvolvido como parte de um desafio técnico para a vaga de estágiário de Desenvolvimento Web da Infinix. O objetivo é criar uma Pokedéx funcional e performática utilizando tecnologias modernas.
 
-Currently, two official plugins are available:
+## Tecnologias Utilizadas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 18**: Biblioteca principal para construção da interface.
+- **TypeScript**: Para garantir segurança de tipos e melhor experiência de desenvolvimento.
+- **TailwindCSS**: Para estilização rápida, responsiva e moderna.
+- **Axios**: Para consumo da API REST da PokeAPI.
+- **React Router Dom**: Para gerenciamento de rotas dinâmicas.
+- **Vite**: Como ferramenta de build, garantindo um ambiente de desenvolvimento ultra-rápido.
 
-## React Compiler
+## Estrutura de Pastas
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+A estrutura foi organizada seguindo padrões para escalabilidade e manutenção:
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── components/ # Componentes reutilizáveis da interface
+├── pages/      # Páginas principais da aplicação (Home e Detalhes)
+├── services/   # Configuração e chamadas de API (Axios)
+├── types/      # Definições de interfaces TypeScript
+├── App.tsx     # Componente raiz com roteador e layout base
+├── index.css   # Estilos globais e utilitários do Tailwind
+└── main.tsx    # Ponto de entrada da aplicação
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Justificativa da Estrutura
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Modularização**: Separar componentes de páginas permite que a lógica de interface seja reaproveitada em diferentes partes do app.
+- **Services**: Centralizar as chamadas de API em um serviço Axios facilita a manutenção de URLs base, interceptores e facilita testes futuros.
+- **Types**: Manter as interfaces em um local dedicado garante que o contrato de dados com a API seja respeitado em toda a aplicação, evitando o uso de `any`.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Soluções Implementadas
+
+### O problema das Imagens na Lista
+O endpoint de listagem da PokeAPI (`/pokemon`) não retorna as imagens diretamente. Para resolver isso sem sobrecarregar a rede com centenas de requisições de detalhes na Home, implementei uma lógica que extrai o ID do Pokémon a partir da URL retornada e monta a URL da imagem oficial de alta qualidade armazenada no GitHub do PokeAPI. Isso garante uma Home fluida e visualmente atraente.
+
+### UX & Design
+- **Indicadores de Carregamento**: Implementação de um Spinner para mostrar carregamento.
+- **Responsividade**: Grid adaptável para Mobile, Tablet e Desktop.
+- **Animações**: Uso de efeitos de hover e animações de entrada (`fadeIn`) e flutuação para dar vida à interface.
+
+## Como Executar
+
+1. Instale as dependências:
+   ```bash
+   npm install
+   ```
+
+2. Inicie o servidor de desenvolvimento:
+   ```bash
+   npm run dev
+   ```
+
+3. Abra o navegador em `http://localhost:5173` (padrão do Vite) para acessar a aplicação em desenvolvimento.
+
+### Scripts disponíveis
+
+- `npm run dev` — inicia o servidor de desenvolvimento (Vite).
+- `npm run build` — gera a versão de produção.
+- `npm run preview` — serve a build gerada localmente para verificação.
