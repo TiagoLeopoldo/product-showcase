@@ -2,7 +2,7 @@ import axios from 'axios';
 import type { PokemonListResponse, PokemonDetail } from '../types/pokemon';
 
 const api = axios.create({
-  baseURL: 'https://pokeapi.co/api/v2/',
+  baseURL: import.meta.env.VITE_PKM_API,
 });
 
 const CACHE_PREFIX = 'poke-cache-';

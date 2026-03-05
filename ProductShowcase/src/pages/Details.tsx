@@ -45,7 +45,7 @@ const Details: React.FC = () => {
     </div>
   );
 
-  const officialArtwork = pokemon.sprites.other['official-artwork'].front_default || pokemon.sprites.front_default;
+  const officialArtwork = pokemon.sprites?.other?.['official-artwork']?.front_default || pokemon.sprites?.front_default || '';
   const isFavorite = isInTeam(pokemon.name);
 
   const toggleFavorite = () => {
@@ -94,7 +94,7 @@ const Details: React.FC = () => {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            {pokemon.types.map((t: PokemonType) => (
+            {(pokemon.types || []).map((t: PokemonType) => (
               <span
                 key={t.type.name}
                 className={`type-badge type-${t.type.name} px-4 py-1.5 shadow-sm`}
@@ -107,7 +107,7 @@ const Details: React.FC = () => {
           <div className="grid grid-cols-2 gap-4 py-6 border-y border-gray-100 dark:border-gray-700">
             <div className="space-y-1">
               <p className="text-sm text-gray-500 uppercase font-bold tracking-widest">Altura</p>
-              <p className="text-2xl font-bold">{(pokemon.height / 10).toFixed(1)} <span className="text-sm font-normal text-gray-400 ml-1Resource">m</span></p>
+              <p className="text-2xl font-bold">{(pokemon.height / 10).toFixed(1)} <span className="text-sm font-normal text-gray-400 ml-1">m</span></p>
             </div>
             <div className="space-y-1">
               <p className="text-sm text-gray-500 uppercase font-bold tracking-widest">Peso</p>
@@ -118,7 +118,7 @@ const Details: React.FC = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-bold text-gray-700 dark:text-gray-300">Estatísticas Básicas</h3>
             <div className="space-y-3">
-              {pokemon.stats.map((s: PokemonStat) => (
+              {(pokemon.stats || []).map((s: PokemonStat) => (
                 <div key={s.stat.name} className="space-y-1">
                   <div className="flex justify-between text-xs uppercase font-bold text-gray-500">
                     <span>{s.stat.name.replace('-', ' ')}</span>
