@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getPokemonDetails } from '../services/api';
 import type { PokemonDetail, PokemonType, PokemonStat } from '../types/pokemon';
 import LoadingSpinner from '../components/LoadingSpinner';
-
+import { usePokemon } from '../context/PokemonContext';
 
 const Details: React.FC = () => {
   const { name } = useParams<{ name: string }>();
@@ -11,6 +11,7 @@ const Details: React.FC = () => {
   const [pokemon, setPokemon] = useState<PokemonDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { addToTeam, removeFromTeam, isInTeam } = usePokemon();
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -45,7 +46,15 @@ const Details: React.FC = () => {
   );
 
   const officialArtwork = pokemon.sprites.other['official-artwork'].front_default || pokemon.sprites.front_default;
+  const isFavorite = isInTeam(pokemon.name);
 
+  const toggleFavorite = () => {
+    if (isFavorite) {
+      removeFromTeam(pokemon.name);
+    } else {
+      addToTeam({ name: pokemon.name, url: `https://pokeapi.co/api/v2/pokemon/${pokemon.id}/` });
+    }
+  };
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-fadeIn">
@@ -73,6 +82,15 @@ const Details: React.FC = () => {
             <h2 className="text-5xl font-black capitalize text-gray-800 dark:text-white tracking-tight">
               {pokemon.name}
             </h2>
+            <button
+              onClick={toggleFavorite}
+              className={`p-3 rounded-2xl transition-all duration-300 ${isFavorite
+                  ? 'bg-pokemon-yellow text-white shadow-lg scale-110'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-400 hover:text-pokemon-yellow hover:bg-white dark:hover:bg-gray-600'
+                }`}
+            >
+              Incluir
+            </button>
           </div>
 
           <div className="flex flex-wrap gap-2">

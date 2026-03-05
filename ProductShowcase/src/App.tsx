@@ -1,11 +1,11 @@
 import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import Details from './pages/Details'
-
+import { PokemonProvider } from './context/PokemonContext'
 
 function App() {
   return (
-    <>
+    <PokemonProvider>
       <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
         <header className="bg-pokemon-red p-6 shadow-md mb-8">
           <div className="container mx-auto flex justify-between items-center">
@@ -28,7 +28,7 @@ function App() {
           </p>
         </footer>
       </div>
-    </>
+    </PokemonProvider>
   )
 }
 

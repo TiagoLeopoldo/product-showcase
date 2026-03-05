@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { usePokemon } from '../context/PokemonContext';
 
 interface PokemonCardProps {
   name: string;
@@ -8,10 +9,21 @@ interface PokemonCardProps {
 
 const PokemonCard: React.FC<PokemonCardProps> = ({ name, url }: PokemonCardProps) => {
   const navigate = useNavigate();
+  const { addToTeam, removeFromTeam, isInTeam } = usePokemon();
 
   const id = url.split('/').filter(Boolean).pop();
   const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
 
+  const isFavorite = isInTeam(name);
+
+  const toggleFavorite = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isFavorite) {
+      removeFromTeam(name);
+    } else {
+      addToTeam({ name, url });
+    }
+  };
 
   return (
     <div
@@ -20,6 +32,16 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ name, url }: PokemonCardProps
     >
       <div className="aspect-square bg-gray-50 dark:bg-gray-700 flex items-center justify-center p-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-pokemon-yellow opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+
+        <button
+          onClick={toggleFavorite}
+          className={`absolute top-2 left-2 z-20 p-2 rounded-full transition-all duration-300 ${isFavorite
+              ? 'bg-pokemon-yellow text-white scale-110 shadow-md'
+              : 'bg-white/80 dark:bg-gray-800/80 text-gray-300 hover:text-pokemon-yellow hover:scale-110'
+            }`}
+        >
+          Incluir
+        </button>
 
         <img
           src={imageUrl}

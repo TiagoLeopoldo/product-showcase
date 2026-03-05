@@ -3,6 +3,7 @@ import { getPokemonList, clearCache } from '../services/api';
 import type { PokemonListItem } from '../types/pokemon';
 import PokemonCard from '../components/PokemonCard';
 import LoadingSpinner from '../components/LoadingSpinner';
+import PokemonTeam from '../components/PokemonTeam';
 
 const Home: React.FC = () => {
   const [pokemon, setPokemon] = useState<PokemonListItem[]>([]);
@@ -10,10 +11,11 @@ const Home: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const fetchPokemon = async (forceRefresh = false) => {
+
+  const fetchPokemon = async (Refresh = false) => {
     try {
       setLoading(true);
-      if (forceRefresh) clearCache();
+      if (Refresh) clearCache();
       const data = await getPokemonList(151);
       setPokemon(data.results);
     } catch (err) {
@@ -47,6 +49,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="space-y-12">
+      <PokemonTeam />
 
       <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-lg border border-gray-100 dark:border-gray-700">
         <div className="relative flex-1 w-full group">
